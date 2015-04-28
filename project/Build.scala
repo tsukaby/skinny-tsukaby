@@ -1,6 +1,6 @@
 import sbt._, Keys._
 import org.scalatra.sbt._, PluginKeys._
-import com.mojolly.scalate.ScalatePlugin._, ScalateKeys._
+import skinny.scalate.ScalatePlugin._, ScalateKeys._
 import com.earldouglas.xsbtwebplugin.WebPlugin._
 import com.earldouglas.xsbtwebplugin.PluginKeys._
 import org.sbtidea.SbtIdeaPlugin._
@@ -16,12 +16,12 @@ object SkinnyAppBuild extends Build {
   val appName = "skinny-blank-app"
   val appVersion = "0.1.0-SNAPSHOT"
 
-  val skinnyVersion = "1.3.14"
-  val scalatraVersion = "2.3.0"
-  val theScalaVersion = "2.11.5"
-  val jettyVersion = "9.2.1.v20140609" // latest: "9.2.9.v20150224"
+  val skinnyVersion = "1.3.17"
+  val scalatraVersion = "2.3.1"
+  val theScalaVersion = "2.11.6"
+  val jettyVersion = "9.2.10.v20150310"
 
-  lazy val baseSettings = ScalatraPlugin.scalatraWithJRebel ++ herokuSettings ++ Seq(
+  lazy val baseSettings = ScalatraPlugin.scalatraWithJRebel ++ Seq(
     organization := appOrganization,
     name         := appName,
     version      := appVersion,
@@ -35,10 +35,9 @@ object SkinnyAppBuild extends Build {
       "org.skinny-framework"    %% "skinny-framework"    % skinnyVersion,
       "org.skinny-framework"    %% "skinny-assets"       % skinnyVersion,
       "org.skinny-framework"    %% "skinny-task"         % skinnyVersion,
-      "org.skinny-framework"    %  "skinny-logback"      % "1.0.3",
-      "org.apache.commons"      %  "commons-dbcp2"       % "2.0.1",
-      "com.h2database"          %  "h2"                  % "1.4.185",      // your own JDBC driver
-      "ch.qos.logback"          %  "logback-classic"     % "1.1.2",
+      "org.skinny-framework"    %  "skinny-logback"      % "1.0.6",
+      "org.apache.commons"      %  "commons-dbcp2"       % "2.1",
+      "com.h2database"          %  "h2"                  % "1.4.187",      // your own JDBC driver
       "org.skinny-framework"    %% "skinny-factory-girl" % skinnyVersion   % "test",
       "org.skinny-framework"    %% "skinny-test"         % skinnyVersion   % "test",
       "org.scalatra"            %% "scalatra-scalatest"  % scalatraVersion % "test",
@@ -132,14 +131,6 @@ object SkinnyAppBuild extends Build {
       ideaIgnoreModule := true
     ) ++ jettyOrbitHack
   )
-
-  // -------------------------------------------------------
-  // Deployment on Heroku
-  // -------------------------------------------------------
-  // Run "./skinny heroku:init"
-
-  lazy val stage = taskKey[Unit]("Dummy stage task to keep Heroku happy")
-  lazy val herokuSettings = Seq(stage := { "heroku/stage" ! })
 
 }
 
